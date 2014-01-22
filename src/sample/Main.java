@@ -5,41 +5,53 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 
 
 public class Main extends Application {
 
     @Override public void start(Stage stage) {
-        stage.setTitle("Line Chart Sample");
+        stage.setTitle("Marble Diagram");
 
-        final NumberAxis xAxis = new NumberAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Number of Month");
+        final NumberAxis xAxis = new NumberAxis(); xAxis.setLabel("Time");
+        final NumberAxis yAxis = new NumberAxis(10, 30, 1);
+
+        //yAxis.setLowerBound(10);
+        //yAxis.setUpperBound(30);
+        yAxis.setTickUnit(2);
+        yAxis.setTickMarkVisible(false);
+        yAxis.setTickLabelsVisible(false);
 
         final LineChart<Number,Number> lineChart =
                 new LineChart<Number,Number>(xAxis,yAxis);
 
-        lineChart.setTitle("Stock Monitoring, 2010");
 
-        XYChart.Series series = new XYChart.Series();
-        series.setName("My portfolio");
+        XYChart.Series xs = new XYChart.Series();
+        xs.setName("xs");
 
-        series.getData().add(new XYChart.Data(1, 23));
-        series.getData().add(new XYChart.Data(2, 14));
-        series.getData().add(new XYChart.Data(3, 15));
-        series.getData().add(new XYChart.Data(4, 24));
-        series.getData().add(new XYChart.Data(5, 34));
-        series.getData().add(new XYChart.Data(6, 36));
-        series.getData().add(new XYChart.Data(7, 22));
-        series.getData().add(new XYChart.Data(8, 45));
-        series.getData().add(new XYChart.Data(9, 43));
-        series.getData().add(new XYChart.Data(10, 17));
-        series.getData().add(new XYChart.Data(11, 29));
-        series.getData().add(new XYChart.Data(12, 25));
+        xs.getData().add(new XYChart.Data(0, 20));
+        xs.getData().add(new XYChart.Data(5, 20));
+        xs.getData().add(new XYChart.Data(6, 20));
+        xs.getData().add(new XYChart.Data(9, 20));
 
-        Scene scene  = new Scene(lineChart,800,600);
-        lineChart.getData().add(series);
+        XYChart.Series ys = new XYChart.Series();
+        xs.setName("xs.map(x => x+1)");
+
+        ys.getData().add(new XYChart.Data(0, 18));
+        ys.getData().add(new XYChart.Data(5, 18));
+        ys.getData().add(new XYChart.Data(6, 18));
+        ys.getData().add(new XYChart.Data(9, 18));
+
+        ScrollPane scrollPane = new ScrollPane();
+        Scene scene  = new Scene(scrollPane,800,600);
+
+        lineChart.setPrefWidth(800);
+        lineChart.setMinWidth(20000);
+        scrollPane.setContent(lineChart);
+
+        lineChart.getData().add(xs);
+        lineChart.getData().add(ys);
 
         stage.setScene(scene);
         stage.show();
